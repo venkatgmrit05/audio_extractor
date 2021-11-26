@@ -4,116 +4,71 @@ Created on Wed Nov 24 12:51:18 2021
 
 @author: umave
 """
+
+""
 import os
 import argparse
-import moviepy.editor as mpe
 import shutil
+from ExtractAudio import *
+from funcs import *
 
 
-class ExtractAudio(object):
-
-    def __init__(self,
-                 name='aex_1',
-                 counter_limit=10):
-        self.name = name
-        self.counter_limit = counter_limit
-        # self.source = source_folder
-        # self.target = target_folder
-
-    @staticmethod
-    def get_audio(_video_clip,
-                  _audio_file_name,
-                  extn='.mp3'):
-        print(f'audio file name is {_audio_file_name}')
-        try:
-            _vid_clip = mpe.VideoFileClip(_video_clip)
-            _vid_clip.audio.write_audiofile(_audio_file_name)
-            return 1
-        except Exception as e:
-            # print(1)
-            print('error >> {}'.format(e))
-            return 0
-
-    def rip_audio(self,
-                  vid_file,
-                  audio_filename,
-                  counter=0):
-
-        if not os.path.isfile(audio_filename):  # checking for pre existing file
-            ret_code = self.get_audio(vid_file,audio_filename)
-            return ret_code
-        else:
-            fname,extn = os.path.basename(audio_filename).split('.')
-            new_name = os.path.basename(audio_filename) + str(counter) + f'.{extn}'
-            new_file_path = os.path.join(os.path.dirname(audio_filename),new_name)
-            return self.rip_audio(vid_file,
-                                  new_file_path)
 
 
 # depl #test
 
+# def main():
 
-#
-# agp = argparse.ArgumentParser()
-# agp.add_argument('-s','--source',help = 'source_dir')
-# agp.add_argument('-t','--target',help = 'target_dir')
-# agp.add_argument('-e','--extension',help = 'file extension : mp4 or 'mp4,aac' etc')
-# args = agp.parse_args()
+agp = argparse.ArgumentParser()
+agp.add_argument('-s','--source',type=str,help='source_dir')
+agp.add_argument('-t','--target',type=str,default=None,help='target_dir')
+agp.add_argument('-e','--extension',type=str,default='mp4',help='file extension : mp4 etc')
+# TODO extension can be given as a  csv : "mkv,mp4,3gp" etc\
+#  for batch mode operation when multiple video formats
+agp.add_argument('-m','--move_failed_files',type=int,default=0,help='move failed \
+ files to another directory, default is False')
+args = agp.parse_args()
+print(args)
 
-# audioex = ExtractAudio()
-# files =os.listdir(args.source)
-# print(files)
-# failed = []
-# for file in files:
-#     filename = get_sanitized_filename(file)
-# success = audioex.get_audio(vid_file,audio_file)
-# if not success:
-#     failed.append(file)
+source = args.source
+dest = args.target
+file_type = args.extension
+if not '.' in args.extension:
+    file_type = '.' + args.extension
+
+
+
+move_failed_files = args.move_failed_files
+
+print(f'source >> {source}')
+print(f'dest >> {dest}')
+print(f'file_type >> {file_type}')
+print(f'move_failed_files >> {move_failed_files}')
 
 # dev
 
-
-from funcs import *
-
-source = r'D:\4K_Video_Downloader\IDM_videos\idm_music_videos\failed_to_extract'
+# source = r'D:\4K_Video_Downloader\IDM_videos\idm_music_videos'
+# dest = None
+# file_type = '.' + 'mkv'
+# move_failed_files = 0
 
 # source = r'D:\4K_Video_Downloader\IDM_videos\idm_music_videos\t2'
-dest = r'D:\4K_Video_Downloader\IDM_videos\idm_music_extracted_audio'
+# dest = r'D:\4K_Video_Downloader\IDM_videos\idm_music_extracted_audio'
 
-if dest:
-    dest = dest
-else:
+if not dest:
     dest = os.path.join(source,'extracted_audio_files')
-    os.mkdir(dest)
+    print(f'extracting to folder {dest}')
+    try:
+        os.mkdir(dest)
+    except Exception as e:
+        print(f'error >> {e}')
+
 vid_files = os.listdir(source)
 vid_files = [file for file in vid_files if os.path.isfile(os.path.join(source,file))]
-
-file_type = '.mkv'
 
 failed_files = []
 fail_folder = os.path.join(source,'failed_to_extract')
 audioex = ExtractAudio()
-
-
-def get_unique_file_name(file_path,
-                         counter=0,
-                         counter_limit=10):
-    if not '.m' in file_path:
-        file_path = file_path + '.mp3'
-    print(f'verifying {file_path}')
-
-    if os.path.isfile(file_path):
-        if counter < counter_limit:
-            counter = counter + 1
-            fname,extn = os.path.basename(file_path).split('.')
-
-            new_name = f'{fname}_{counter}_.{extn}'
-            new_file_path = os.path.join(os.path.dirname(file_path),new_name)
-            print(f'updating name to  {new_file_path}')
-        return get_unique_file_name(new_file_path,
-                                    counter)
-    return file_path
-
 
 num_total_files = len(vid_files)
 num_files_failed = 0
@@ -156,7 +111,6 @@ finally:
 
 print('failed >> ',failed_files)
 
-move_failed_files = False
 if move_failed_files:
     #
     if failed_files:
