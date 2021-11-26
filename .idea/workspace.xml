@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="36a3c945-29d9-4833-8e0f-88a6b337dea0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/audio_extractor2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MIT-LICENSE.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/audio_extractor.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/extract_audio.py" beforeDir="false" afterPath="$PROJECT_DIR$/extract_audio.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/funcs - Copy.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/funcs.py" beforeDir="false" afterPath="$PROJECT_DIR$/funcs.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

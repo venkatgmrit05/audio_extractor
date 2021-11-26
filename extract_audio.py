@@ -12,9 +12,6 @@ import shutil
 from ExtractAudio import *
 from funcs import *
 
-
-
-
 # depl #test
 
 # def main():
@@ -28,20 +25,18 @@ agp.add_argument('-e','--extension',type=str,default='mp4',help='file extension 
 agp.add_argument('-m','--move_failed_files',type=int,default=0,help='move failed \
  files to another directory, default is False')
 args = agp.parse_args()
-print(args)
+
 
 source = args.source
-dest = args.target
+destination = args.target
 file_type = args.extension
 if not '.' in args.extension:
     file_type = '.' + args.extension
 
-
-
 move_failed_files = args.move_failed_files
 
 print(f'source >> {source}')
-print(f'dest >> {dest}')
+print(f'destination >> {destination}')
 print(f'file_type >> {file_type}')
 print(f'move_failed_files >> {move_failed_files}')
 
@@ -55,11 +50,12 @@ print(f'move_failed_files >> {move_failed_files}')
 # source = r'D:\4K_Video_Downloader\IDM_videos\idm_music_videos\t2'
 # dest = r'D:\4K_Video_Downloader\IDM_videos\idm_music_extracted_audio'
 
-if not dest:
-    dest = os.path.join(source,'extracted_audio_files')
-    print(f'extracting to folder {dest}')
+
+if not destination:
+    destination = os.path.join(source,'extracted_audio_files')
+    print(f'extracting to folder {destination}')
     try:
-        os.mkdir(dest)
+        os.mkdir(destination)
     except Exception as e:
         print(f'error >> {e}')
 
@@ -87,7 +83,7 @@ try:
             print(f'audio_filename is {audio_filename}')
 
             vid_file = os.path.join(source,vid_file)
-            audio_filename = os.path.join(dest,audio_filename)
+            audio_filename = os.path.join(destination,audio_filename)
             audio_filename = get_unique_file_name(audio_filename)
 
             success = audioex.get_audio(vid_file,
@@ -108,8 +104,8 @@ finally:
     print(f'deleting audio extractor object {audioex.name}')
     del audioex
 #
-
-print('failed >> ',failed_files)
+if failed_files:
+    print('failed >> ',failed_files)
 
 if move_failed_files:
     #
@@ -135,3 +131,7 @@ if move_failed_files:
 print(f'num given files : {num_total_files} , '
       f'num success files : {num_files_extracted} ,'
       f'num failed files : {num_files_failed} ')
+
+
+# if __name__ == '__main__':
+#     extract_audio()

@@ -9,10 +9,10 @@ def get_sanitized_filename(file_name,
                            token_joiner='_',
                            intra_splitter='-',
                            limit=5):
-    print(f'input name is {file_name}')
+    #print(f'input name is {file_name}')
     try:
         file_name_str,*_,extension = file_name.split(file_extn)
-        print(f'token splits : {file_name_str} || {_} || {extension}')
+        #print(f'token splits : {file_name_str} || {_} || {extension}')
         splitters = []
         for item in file_name_str:
             if not item.isalpha():
@@ -23,7 +23,7 @@ def get_sanitized_filename(file_name,
         n_file_name = n_file_name.replace(intra_splitter,' ')
         n_file_name_tokens = n_file_name.split()
         sanitized_name = token_joiner.join(n_file_name_tokens[:limit])
-        print(f'sanitized name : {sanitized_name}')
+        #print(f'sanitized name : {sanitized_name}')
         return sanitized_name
     except Exception as e:
         print(f'error >> {e}')
@@ -48,6 +48,7 @@ def get_unique_file_name(file_path,
                                     counter)
     return file_path
 
+#test
 # fn = r'24.Preme Pora Baron -- Cover by Melissa Srivastava.mp4'
 #
 # print(get_sanitized_filename(fn))
